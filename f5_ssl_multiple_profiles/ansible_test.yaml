@@ -1,0 +1,35 @@
+---
+- name: Ansible Test
+  vars_files:
+  - vars.yaml
+  hosts: localhost
+  tasks:
+    - name: debug
+      debug:
+        var: vips
+    - name: Build SSL profiles map per VIP
+      set_fact:
+        vip_profiles_map: >-
+          {{
+            vip_profiles_map | default({}) | combine({
+              item.name: item.ssl 
+                | map(attribute='chain') 
+                | map('basename')
+                | map('splitext')
+                | map('first')
+                | map('community.general.dict_kv', 'name')
+                | list
+                | map('combine', {'context': 'client-side'})
+                | list
+            })
+          }}
+      loop: "{{ vips }}"
+    - name: Debug Test
+      debug:
+        msg: "{{ vip_profiles_map[item.name] }}"
+      loop: "{{  vips  }}"
+
+    - name: Loop for get ssl profiles
+      debug:
+        msg: "{{  item.1 }}"
+      loop: "{{ vips | subelements('ssl') }}"

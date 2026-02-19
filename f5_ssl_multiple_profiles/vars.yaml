@@ -1,0 +1,29 @@
+vips:
+- name: TestVip
+  ip: 10.0.0.1
+  ssl:
+  - chain: filetest.crt
+    key: filetest.key
+    profile_name: profile1
+  - chain: file_2.crt
+    key: file_3.key
+    profile_name: profile2
+- name: SecondName
+  ip: 10.0.0.1
+  ssl:
+  - chain: file.keykey
+    key: file.test
+    profile_name: profile3
+  - chain: file_2.test
+    key: file_3.ley
+    profile_name: profile4
+
+# - name: Thirdname
+#   ip: 10.0.0.1
+#   ssl:
+#   - chain: file
+#     key: file
+#     profile_name: profile5
+#   - chain: file_2
+#     key: file_3
+#     profile_name: profile6
